@@ -9,7 +9,7 @@ namespace RTTools.Helpers
 {
 	public static class Extensions
 	{
-		public static Type[] GetAllDerivedTypes(this AppDomain appDomain, Type aType)
+		private static Type[] GetAllDerivedTypes(this AppDomain appDomain, Type aType)
 		{
 			List<Type> result = new List<Type>();
 			Assembly[] assemblies = appDomain.GetAssemblies();
@@ -28,7 +28,7 @@ namespace RTTools.Helpers
 			return result.ToArray();
 		}
 
-		public static Rect GetEditorMainWindowPos()
+        private static Rect GetEditorMainWindowPos()
 		{
 			Type containerWinType = AppDomain.CurrentDomain.GetAllDerivedTypes (typeof(ScriptableObject)).FirstOrDefault (t => t.Name == "ContainerWindow");
 			FieldInfo showModeField = containerWinType.GetField("m_ShowMode", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -48,7 +48,7 @@ namespace RTTools.Helpers
 			foreach (UnityEngine.Object win in windows)
 			{
 				int showmode = (int)showModeField.GetValue(win);
-				if (showmode == 4) // main window
+				if (showmode == 4) // main window = 4
 				{
 					Rect pos = (Rect)positionProperty.GetValue(win, null);
 					return pos;

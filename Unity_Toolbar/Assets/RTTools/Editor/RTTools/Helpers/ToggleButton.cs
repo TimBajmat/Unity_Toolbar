@@ -9,20 +9,20 @@ public static class ToggleButton {
 	/// Makes a toggle style button.
 	/// </summary>
 	/// <param name="name">Name.</param>
-	/// <param name="value">If set to <c>true</c> button will be toggled.</param>
-	public static bool Draw(string name, bool value)
+	/// <param name="b">If set to <c>true</c> button will be toggled.</param>
+	public static bool Draw(string name, bool b)
 	{
-		GetStyle();
-		return GUILayout.Button(name, value ? ToggleButtonStyleToggled : ToggleButtonStyleNormal);
+		GetToggleStyle();
+		return GUILayout.Button(name, b ? ToggleButtonStyleToggled : ToggleButtonStyleNormal);
 	}
 
-	public static bool Draw(string name, bool value, params GUILayoutOption[] options)
+	public static bool Draw(string name, bool b, params GUILayoutOption[] options)
 	{
-		GetStyle();
-		return GUILayout.Button(name, value ? ToggleButtonStyleToggled : ToggleButtonStyleNormal, options);
+		GetToggleStyle();
+		return GUILayout.Button(name, b ? ToggleButtonStyleToggled : ToggleButtonStyleNormal, options);
 	}
 		
-	private static void GetStyle()
+	private static void GetToggleStyle()
 	{
 		if ( ToggleButtonStyleNormal == null )
 		{

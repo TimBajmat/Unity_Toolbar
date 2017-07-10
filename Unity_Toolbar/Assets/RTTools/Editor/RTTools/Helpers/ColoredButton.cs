@@ -9,9 +9,11 @@ public static class ColoredButton
 	/// <param name="color">Color.</param>
 	public static bool Draw(string name, Color color)
 	{
+        Color c = GUI.color;
+
 		GUI.color = color;
 		bool b = GUILayout.Button(name);
-		GUI.color = Color.white;
+		GUI.color = c;
 
 		return b;
 	}
@@ -24,9 +26,11 @@ public static class ColoredButton
 	/// <param name="options">Options.</param>
 	public static bool Draw(string name, Color color, params GUILayoutOption[] options)
 	{
+        Color c = GUI.color;
+
 		GUI.color = color;
 		bool b = GUILayout.Button(name, options);
-		GUI.color = Color.white;
+		GUI.color = c;
 
 		return b;
 	}
@@ -38,9 +42,11 @@ public static class ColoredButton
 	/// <param name="color">Color.</param>
 	public static bool Draw(Texture image, Color color)
 	{
+		Color c = GUI.color;
+
 		GUI.color = color;
 		bool b = GUILayout.Button(image);
-		GUI.color = Color.white;
+		GUI.color = c;
 
 		return b;
 	}
@@ -53,9 +59,11 @@ public static class ColoredButton
 	/// <param name="options">Options.</param>
 	public static bool Draw(Texture image, Color color, params GUILayoutOption[] options)
 	{
+		Color c = GUI.color;
+
 		GUI.color = color;
 		bool b = GUILayout.Button(image, options);
-		GUI.color = Color.white;
+		GUI.color = c;
 
 		return b;
 	}

@@ -19,8 +19,6 @@ namespace RTTools.Windows
 		private Vector2 scrollPos;
 		private GUISkin skin;
 
-		public static bool useName;
-
 		[MenuItem("RTTools/Toolbar %g")]
 		private static void ShowWindow()
 		{
@@ -42,17 +40,7 @@ namespace RTTools.Windows
 			ShowButtons();
 			Repaint();
 		}
-
-		public static bool GetUseName()
-		{
-			return useName;
-		}
-
-		public static bool SetUseName(bool value)
-		{
-			return useName = value;
-		}
-
+			
 		private void ShowButtons()
 		{
 			scrollPos = EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(position.width), GUILayout.Height(position.height));
@@ -72,19 +60,9 @@ namespace RTTools.Windows
 
 		private void CreateButton(ToolkitItem item)
 		{
-			if(item.icon != null || !useName)
+			if (GUILayout.Button(item.icon, skin.button))
 			{
-				if (GUILayout.Button(item.icon, skin.button))
-				{
-					CallFunction(item);
-				}
-			}
-			else
-			{
-				if (GUILayout.Button(item.buttonName, skin.button))
-				{
-					CallFunction(item);
-				}
+				CallFunction(item);
 			}
 		}
 
