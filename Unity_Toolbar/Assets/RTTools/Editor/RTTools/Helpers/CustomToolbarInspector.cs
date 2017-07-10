@@ -23,8 +23,8 @@ public class CustomToolbarInspector : Editor
 	public override void OnInspectorGUI()
 	{
         GUILayout.BeginVertical("Box");
-		GUILayout.Label("Total entries: " + toolkitBar.items.Count);
-		DrawUpperButtons();
+        GUILayout.Label("Total entries: " + toolkitBar.items.Count);
+        DrawUpperButtons();
         DrawButtonEntries();
 		GUILayout.EndVertical();
 
@@ -36,6 +36,12 @@ public class CustomToolbarInspector : Editor
 	/// </summary>
 	private void DrawUpperButtons()
 	{
+
+        if (GUILayout.Button("Refresh"))
+        {
+            AssetDatabase.Refresh();
+        }
+
 		GUILayout.BeginHorizontal();
 		if(GUILayout.Button("Add Button"))
 		{
@@ -53,7 +59,7 @@ public class CustomToolbarInspector : Editor
 				return;
 			}
 		}
-		GUILayout.EndHorizontal();
+        GUILayout.EndHorizontal();
 	}
 
 	/// <summary>
@@ -61,19 +67,15 @@ public class CustomToolbarInspector : Editor
 	/// </summary>
 	private void DrawButtonEntries()
 	{
-		foreach (ToolkitItem item in toolkitBar.items.ToArray()) 
+        foreach (ToolkitItem item in toolkitBar.items.ToArray()) 
 		{
 			GUILayout.BeginVertical("Box");
 
 			DrawInputFields(item);
             DrawSummaryDropdown(item);
+            GetMethodsInScript(item);
           
 			GUILayout.EndVertical();
-
-            if(GUI.changed)
-            {
-                GetMethodsInScript(item);
-            }
 		}
 	}
 		
@@ -91,7 +93,10 @@ public class CustomToolbarInspector : Editor
 				item.methodNames = items.ToArray();
 			}
 
-			item.functionName = item.methodNames[item.index];
+
+             item.functionName = item.methodNames[item.index];
+
+			
 		}
 	}
 
@@ -154,15 +159,25 @@ public class CustomToolbarInspector : Editor
 	private void AddButton()
 	{
 		toolkitBar.items.Add(new ToolkitItem());
+        HandleSaving();
 	}
 
 	private void RemoveAll()
 	{
-		toolkitBar.items.Clear();
+		
+	    toolkitBar.items.Clear();
+        HandleSaving();
 	}
 
 	private void RemoveButton(ToolkitItem item)
 	{
 		toolkitBar.items.Remove(item);
+        HandleSaving();
 	}
+
+    private void HandleSaving()
+    {
+        EditorUtility.SetDirty(toolkitBar);
+		AssetDatabase.SaveAssets();
+    }
 }

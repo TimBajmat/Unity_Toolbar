@@ -32,7 +32,18 @@ namespace RTTools.Windows
 		{
 			CheckPlatform();
 			skin = Resources.Load<GUISkin>(GUI_SKIN);
-			toolkitBar = Resources.Load<ToolkitBar>(TOOLKIT);
+
+            try
+            {
+                if (toolkitBar == null || toolkitBar.items == null)
+                {
+                    toolkitBar = Resources.Load<ToolkitBar>(TOOLKIT);
+                }
+            }
+            catch
+            {
+                Debug.Log("");
+            }
 		}
 			
 		private void OnGUI()
@@ -44,17 +55,12 @@ namespace RTTools.Windows
 		private void ShowButtons()
 		{
 			scrollPos = EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(position.width), GUILayout.Height(position.height));
-			if(toolkitBar == null || toolkitBar.items == null)
+			
+			foreach (ToolkitItem item in toolkitBar.items) 
 			{
-				toolkitBar = Resources.Load<ToolkitBar>(TOOLKIT);
+				CreateButton(item);
 			}
-			else
-			{
-				foreach (ToolkitItem item in toolkitBar.items) 
-				{
-					CreateButton(item);
-				}
-			}
+			
 			EditorGUILayout.EndScrollView();
 		}
 
@@ -75,7 +81,7 @@ namespace RTTools.Windows
 
 				if(!type.IsAbstract && !type.IsSubclassOf(typeof(EditorWindow)))
 				{
-					classObject = ScriptableObject.CreateInstance(type);
+					classObject = CreateInstance(type);
 				} 
 
 				type.GetMethod(item.functionName, FLAGS).Invoke(classObject, null);
