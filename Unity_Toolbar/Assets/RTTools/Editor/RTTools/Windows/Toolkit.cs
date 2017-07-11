@@ -33,13 +33,16 @@ namespace RTTools.Windows
 			toolkitBar = Resources.Load<ToolkitBar>(TOOLKIT);
 			skin = Resources.Load<GUISkin>(GUI_SKIN);
 		}
-			
+		
 		private void OnGUI()
 		{
 			ShowButtons();
 			Repaint();
 		}
 			
+        /// <summary>
+        /// Shows the buttons in the EditorWindow.
+        /// </summary>
 		private void ShowButtons()
 		{
 			scrollPos = EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(position.width), GUILayout.Height(position.height));
@@ -57,6 +60,10 @@ namespace RTTools.Windows
 			EditorGUILayout.EndScrollView();
 		}
 
+		/// <summary>
+		/// Creates the button in the EditorWindow.
+		/// </summary>
+		/// <param name="item">ToolkitItem.</param>
 		private void CreateButton(ToolkitItem item)
 		{
 			if (GUILayout.Button(item.icon, skin.button))
@@ -65,26 +72,31 @@ namespace RTTools.Windows
 			}
 		}
 
+        /// <summary>
+        /// Calls the function that is specified for the given item.
+        /// </summary>
+        /// <param name="item">ToolkitItem.</param>
 		private static void CallFunction(ToolkitItem item)
 		{
-			try
-			{
-				Type type = item.script.GetClass();
-				object classObject = null;
+            if (!EditorApplication.isPlaying)
+            {
+                try
+                {
+                    Type type = item.script.GetClass();
+                    object classObject = null;
 
-				if(!type.IsAbstract && !type.IsSubclassOf(typeof(EditorWindow)))
-				{
-					classObject = CreateInstance(type);
-				} 
+                    if (!type.IsAbstract && !type.IsSubclassOf(typeof(EditorWindow)))
+                    {
+                        classObject = CreateInstance(type);
+                    }
 
-				type.GetMethod(item.functionName, FLAGS).Invoke(classObject, null);
-			}
-			catch
-			{
-				Debug.LogError("Something went wrong, check the name of the function you want to call");
-			}
+                    type.GetMethod(item.functionName, FLAGS).Invoke(classObject, null);
+                }
+                catch
+                {
+                    Debug.LogError("Something went wrong, check the name of the function you want to call");
+                }
+            }
 		}
-			
-		
 	}
 }

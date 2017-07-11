@@ -1,8 +1,7 @@
 ﻿using UnityEditor;
-using RTTools;
-using RTTools.Models;
 using UnityEngine;
 using System.IO;
+using RTTools.Models;
 
 public static class ScriptableObjectUtility
 {
