@@ -30,20 +30,8 @@ namespace RTTools.Windows
 
 		private void OnEnable()
 		{
-			CheckPlatform();
+			toolkitBar = Resources.Load<ToolkitBar>(TOOLKIT);
 			skin = Resources.Load<GUISkin>(GUI_SKIN);
-
-            try
-            {
-                if (toolkitBar == null || toolkitBar.items == null)
-                {
-                    toolkitBar = Resources.Load<ToolkitBar>(TOOLKIT);
-                }
-            }
-            catch
-            {
-                Debug.Log("");
-            }
 		}
 			
 		private void OnGUI()
@@ -55,12 +43,17 @@ namespace RTTools.Windows
 		private void ShowButtons()
 		{
 			scrollPos = EditorGUILayout.BeginScrollView(scrollPos, GUILayout.Width(position.width), GUILayout.Height(position.height));
-			
-			foreach (ToolkitItem item in toolkitBar.items) 
+			if (toolkitBar == null || toolkitBar.items == null)
 			{
-				CreateButton(item);
+				toolkitBar = Resources.Load<ToolkitBar>(TOOLKIT);
 			}
-			
+            else
+            {
+				foreach (ToolkitItem item in toolkitBar.items)
+				{
+					CreateButton(item);
+				} 
+            }
 			EditorGUILayout.EndScrollView();
 		}
 
@@ -92,13 +85,6 @@ namespace RTTools.Windows
 			}
 		}
 			
-		private static void CheckPlatform()
-		{
-	#if UNITY_EDITOR_WIN
-			Config.SEPERATOR = Config.WIN_SEPERATOR;
-	#elif UNITY_EDITOR_OSX
-			Config.SEPERATOR = Config.OSX_SEPERATOR;
-	#endif
-		}
+		
 	}
 }

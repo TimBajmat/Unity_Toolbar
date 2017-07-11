@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace RTTools.Models
 {
@@ -9,3 +9,4 @@ namespace RTTools.Models
 		public List<ToolkitItem> items = new List<ToolkitItem>();
 	}
 }
+

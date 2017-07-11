@@ -30,7 +30,7 @@ public static class ScriptableObjectUtility
 			path = path.Replace (Path.GetFileName (AssetDatabase.GetAssetPath (Selection.activeObject)), string.Empty);
 		}
 
-		string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath (PATH + Config.SEPERATOR + ASSET_NAME + ASSET_EXTENSION);
+		string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath (PATH + "/" + ASSET_NAME + ASSET_EXTENSION);
 
 		AssetDatabase.CreateAsset (asset, assetPathAndName);
 
